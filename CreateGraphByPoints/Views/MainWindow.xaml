@@ -1,0 +1,114 @@
+﻿<Window x:Class="CreateGraphByPoints.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewmodel="clr-namespace:CreateGraphByPoints.ViewModels"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <viewmodel:MainViewModel x:Key="MainViewModel"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <Binding Source="{StaticResource MainViewModel}"/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="400*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="0.25*"
+                              MinWidth="300"/>
+        </Grid.ColumnDefinitions>
+        <lvc:CartesianChart Series="{Binding DrawFuncVM.SeriesCollection}"
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            Margin="10"
+                            DataClickCommand="{Binding DrawFuncVM.ChangeCurrentFuncPoints}">
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="X" FontSize="14"></lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Y" FontSize="14"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        <ListBox ItemsSource="{Binding DrawFuncVM.CurrentFuncPoints.Values, UpdateSourceTrigger=PropertyChanged}"
+                 SelectedItem="{Binding SelectedIndex}"
+                 Grid.Column="1"
+                 Grid.Row="1"
+                 Margin="10,30,10,10"
+                 HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" >
+                        <TextBox Text="{Binding X, UpdateSourceTrigger=PropertyChanged}"
+                                 MinWidth="50"
+                                 MinHeight="20"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Bottom"
+                                 TextChanged="TextBox_TextChanged"
+                                 Margin="30,0,0,0">
+                            <!--<behaviors:Interaction.Triggers>
+                                <behaviors:EventTrigger EventName="TextChanged">
+                                    <behaviors:InvokeCommandAction Command="{Binding Path = Datacontext.IsProjectChanged,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"/>
+                                </behaviors:EventTrigger>
+                            </behaviors:Interaction.Triggers>-->
+                        </TextBox>
+                        <TextBox Text="{Binding Y, UpdateSourceTrigger=PropertyChanged}"
+                                 MinWidth="50"
+                                 MinHeight="20"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
+                                 TextChanged="TextBox_TextChanged"
+                                 Margin="30,0,0,0">
+                            <!--<behaviors:Interaction.Triggers>
+                                <behaviors:EventTrigger EventName="TextChanged">
+                                    <behaviors:InvokeCommandAction Command="{Binding IsProjectChanged,
+                                        RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"/>
+                                </behaviors:EventTrigger>
+                            </behaviors:Interaction.Triggers>-->
+                        </TextBox>
+                        <Button Command="{Binding Path=DataContext.DrawFuncVM.RemovePoint,
+                                RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
+                                CommandParameter="{Binding}"
+                                Content="Delete"
+                                Margin="30,0,0,0"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Menu VerticalAlignment="Top" Grid.ColumnSpan="2" Grid.Row="0">
+            <MenuItem Header="Save in file">
+                <MenuItem Header="Save in Excel" 
+                          Command="{Binding SaveFileVM.LoadInExcelFile}"
+                          CommandParameter="{Binding DrawFuncVM.SeriesCollection}"/>
+                <MenuItem Header="Save in Xml" 
+                          Command="{Binding SaveFileVM.LoadInXmlFile}" 
+                          CommandParameter="{Binding DrawFuncVM.SeriesCollection}"/>
+            </MenuItem>
+            <MenuItem Header="Load from file">
+                <MenuItem Header="Load from Excel" 
+                          Command="{Binding SaveFileVM.LoadFromExcelFile}"
+                          CommandParameter="{Binding DrawFuncVM.SeriesCollection}"/>
+                <MenuItem Header="Load from Xml" 
+                          Command="{Binding SaveFileVM.LoadFromXmlFile}"
+                          CommandParameter="{Binding DrawFuncVM.SeriesCollection}"/>
+            </MenuItem>
+            <MenuItem Header="Add point" 
+                      Command="{Binding DrawFuncVM.AddPoint}"/>
+            <MenuItem Header="Add function" 
+                      Command="{Binding DrawFuncVM.AddFunction}"/>
+            <MenuItem Header="Remove function"
+                      Command="{Binding DrawFuncVM.RemoveFunction}"/>
+            <MenuItem Header="Inverse current function" 
+                      Command="{Binding DrawFuncVM.InverseCurrentFunc}"/>
+        </Menu>
+        <Label Grid.Column="1" Content="X" HorizontalAlignment="Left" Margin="60,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Grid.Column="1" Content="Y" HorizontalAlignment="Left" Margin="140,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
