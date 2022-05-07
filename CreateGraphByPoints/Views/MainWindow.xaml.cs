@@ -12,7 +12,7 @@ namespace CreateGraphByPoints.Views
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             bool showCancel = false;
-            if (MainViewModel._isCanProjectChange)
+            if ((DataContext as MainViewModel).IsCanProjectChange)
             {
                 var res = MessageBox.Show("Data is not saving.\nDo you really want to exit the app without saving the data?", "", showCancel ? MessageBoxButton.YesNoCancel : MessageBoxButton.YesNo);
                 if (res == MessageBoxResult.No)
@@ -25,7 +25,7 @@ namespace CreateGraphByPoints.Views
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            MainViewModel._isCanProjectChange=true;
+            (DataContext as MainViewModel).IsCanProjectChange = true;
         }
     }
 }

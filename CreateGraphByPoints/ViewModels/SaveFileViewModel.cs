@@ -15,9 +15,12 @@ namespace CreateGraphByPoints.ViewModels
 
         private DrawFuncViewModel _drawFuncVM;
 
-        public SaveFileViewModel(DrawFuncViewModel drawFuncVM)
+        private MainViewModel _MainVM;
+
+        public SaveFileViewModel(DrawFuncViewModel drawFuncVM, MainViewModel mainVM)
         {
             _drawFuncVM = drawFuncVM;
+            _MainVM = mainVM;
         }
 
         #region Commands
@@ -49,7 +52,7 @@ namespace CreateGraphByPoints.ViewModels
             foreach (LineSeries line in (SeriesCollection)param)
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
             context.LoadInFile(_listLineSeries);
-            MainViewModel._isCanProjectChange = false;
+            _MainVM.IsCanProjectChange = false;
         }
 
         #endregion --- LoadInExcelFile ---
@@ -123,7 +126,7 @@ namespace CreateGraphByPoints.ViewModels
             foreach (LineSeries line in (SeriesCollection)param)
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
             context.LoadInFile(_listLineSeries);
-            MainViewModel._isCanProjectChange = false;
+            _MainVM.IsCanProjectChange = false;
         }
         #endregion --- LoadInExcelFile ---
 

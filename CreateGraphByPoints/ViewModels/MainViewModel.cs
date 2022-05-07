@@ -9,7 +9,7 @@ namespace CreateGraphByPoints.ViewModels
 
         private SaveFileViewModel _saveFileVM;
 
-        public static bool _isCanProjectChange;
+        private bool _isCanProjectChange;
 
         public SaveFileViewModel SaveFileVM
         {
@@ -17,8 +17,7 @@ namespace CreateGraphByPoints.ViewModels
             set
             {
                 _saveFileVM = value;
-                OnPropertyChanged();
-                
+                OnPropertyChanged();  
             }
         }
 
@@ -32,39 +31,20 @@ namespace CreateGraphByPoints.ViewModels
             }
         }
 
-        public MainViewModel()
+        public bool IsCanProjectChange
         {
-            DrawFuncVM = new DrawFuncViewModel();
-            SaveFileVM = new SaveFileViewModel(DrawFuncVM);
-        }
-
-
-        #region Commands
-
-        #region --- IsProjectChanged ---
-
-        public ICommand IsProjectChanged
-        {
-            get
+            get => _isCanProjectChange;
+            set
             {
-                if (_cmdIsProjectChanged == null)
-                {
-                    _cmdIsProjectChanged = new RelayCommand(
-                        param => IsProjectChanged_Executed(param)
-                        );
-                }
-                return _cmdIsProjectChanged;
+                _isCanProjectChange = value;
+                OnPropertyChanged();
             }
         }
-        private RelayCommand _cmdIsProjectChanged;
 
-        private void IsProjectChanged_Executed(object param)
+        public MainViewModel()
         {
-            _isCanProjectChange = true;
+            DrawFuncVM = new DrawFuncViewModel(this);
+            SaveFileVM = new SaveFileViewModel(DrawFuncVM, this);
         }
-
-        #endregion --- IsProjectChanged ---
-
-        #endregion Commands
     }
 }

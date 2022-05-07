@@ -13,6 +13,8 @@ namespace CreateGraphByPoints.ViewModels
 
         private LineSeries _currentFuncPoints;
 
+        private MainViewModel _mainVM;
+
         public SeriesCollection SeriesCollection
         {
             get => _seriesCollection;
@@ -33,7 +35,7 @@ namespace CreateGraphByPoints.ViewModels
             }
         }
 
-        public DrawFuncViewModel()
+        public DrawFuncViewModel(MainViewModel mainViewModel)
         {
             SeriesCollection = new SeriesCollection();
             SeriesCollection.Add(new LineSeries());
@@ -41,11 +43,7 @@ namespace CreateGraphByPoints.ViewModels
             CurrentFuncPoints = (LineSeries)SeriesCollection[0];
             (SeriesCollection[0] as LineSeries).LineSmoothness = 0;
             SeriesCollection[0].Values.Insert(0, new ObservablePoint());
-        }
-
-        public void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-
+            _mainVM = mainViewModel;
         }
 
         #region Commands
@@ -75,7 +73,7 @@ namespace CreateGraphByPoints.ViewModels
                 return;
             }
             CurrentFuncPoints.Values.Add(new ObservablePoint());
-            MainViewModel._isCanProjectChange = true;
+            _mainVM.IsCanProjectChange = true;
         }
 
         #endregion --- AddPoint ---
@@ -100,7 +98,7 @@ namespace CreateGraphByPoints.ViewModels
         private void RemovePoint_Executed(object param)
         {
             CurrentFuncPoints.Values.Remove((ObservablePoint)param);
-            MainViewModel._isCanProjectChange = true;
+            _mainVM.IsCanProjectChange = true;
         }
 
         #endregion --- RemovePoint ---
@@ -133,7 +131,7 @@ namespace CreateGraphByPoints.ViewModels
                 LineSmoothness = 0
             });
             CurrentFuncPoints = (LineSeries)SeriesCollection[SeriesCollection.Count-1];
-            MainViewModel._isCanProjectChange = true;
+            _mainVM.IsCanProjectChange = true;
         }
         #endregion --- AddFunction ---
 
