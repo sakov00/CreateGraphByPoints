@@ -1,14 +1,13 @@
 ﻿using CreateGraphByPoints.Interfaces;
 using LiveCharts;
 using LiveCharts.Defaults;
-using LiveCharts.Wpf;
 using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 
-namespace CreateGraphByPoints.ClassesForWorkFiles
+namespace CreateGraphByPoints.ForWorkWithFiles
 {
-    internal class WorkForExcel : IWorkWithFiles
+    internal class WorkForExcel : IForWorkWithFiles
     {
         public void LoadInFile(List<ChartValues<ObservablePoint>> param)
         {

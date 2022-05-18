@@ -1,5 +1,5 @@
 ﻿using CreateGraphByPoints.Commands;
-using CreateGraphByPoints.Interfaces;
+using CreateGraphByPoints.Containers;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -8,13 +8,11 @@ using System.Windows.Input;
 
 namespace CreateGraphByPoints.ViewModels
 {
-    public class DrawFuncViewModel : BaseViewModel, IDrawFunc
+    public class DrawFuncViewModel : BaseViewModel
     {
         private SeriesCollection _seriesCollection;
 
         private LineSeries _currentFuncPoints;
-
-        private IMainVM _mainVM;
 
         public SeriesCollection SeriesCollection
         {
@@ -36,7 +34,7 @@ namespace CreateGraphByPoints.ViewModels
             }
         }
 
-        public DrawFuncViewModel(IMainVM mainViewModel)
+        public DrawFuncViewModel()
         {
             SeriesCollection = new SeriesCollection();
             SeriesCollection.Add(new LineSeries());
@@ -44,7 +42,6 @@ namespace CreateGraphByPoints.ViewModels
             CurrentFuncPoints = (LineSeries)SeriesCollection[0];
             (SeriesCollection[0] as LineSeries).LineSmoothness = 0;
             SeriesCollection[0].Values.Insert(0, new ObservablePoint());
-            _mainVM = mainViewModel;
         }
 
         #region Commands
@@ -74,7 +71,7 @@ namespace CreateGraphByPoints.ViewModels
                 return;
             }
             CurrentFuncPoints.Values.Add(new ObservablePoint());
-            _mainVM.IsCanProjectChange = true;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
         }
 
         #endregion --- AddPoint ---
@@ -99,7 +96,7 @@ namespace CreateGraphByPoints.ViewModels
         private void RemovePoint_Executed(object param)
         {
             CurrentFuncPoints.Values.Remove((ObservablePoint)param);
-            _mainVM.IsCanProjectChange = true;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
         }
 
         #endregion --- RemovePoint ---
@@ -132,7 +129,7 @@ namespace CreateGraphByPoints.ViewModels
                 LineSmoothness = 0
             });
             CurrentFuncPoints = (LineSeries)SeriesCollection[SeriesCollection.Count-1];
-            _mainVM.IsCanProjectChange = true;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
         }
         #endregion --- AddFunction ---
 
@@ -164,6 +161,7 @@ namespace CreateGraphByPoints.ViewModels
             CurrentFuncPoints.Values.Clear();
             if(SeriesCollection.Count == 0)
                 CurrentFuncPoints = null;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
         }
 
         #endregion --- RemoveFunction ---
@@ -218,6 +216,7 @@ namespace CreateGraphByPoints.ViewModels
                 point.X = cloneY;
                 point.Y= cloneX;
             }
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
         }
 
         #endregion --- InverseCurrentFunc ---

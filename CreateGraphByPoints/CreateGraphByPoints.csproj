@@ -67,13 +67,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ClassesForWorkFiles\ContextForWorkFiles.cs" />
-    <Compile Include="Interfaces\IDrawFunc.cs" />
-    <Compile Include="Interfaces\IMainVM.cs" />
-    <Compile Include="Interfaces\ISaveFile.cs" />
-    <Compile Include="Interfaces\IWorkWithFiles.cs" />
-    <Compile Include="ClassesForWorkFiles\WorkForExcel.cs" />
-    <Compile Include="ClassesForWorkFiles\WorkForXml.cs" />
+    <Compile Include="Containers\WorkFilesContainer.cs" />
+    <Compile Include="Containers\ViewModelsContainer.cs" />
+    <Compile Include="Interfaces\IViewModel.cs" />
+    <Compile Include="Interfaces\IForWorkWithFiles.cs" />
+    <Compile Include="ForWorkWithFiles\WorkForExcel.cs" />
+    <Compile Include="ForWorkWithFiles\WorkForXml.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\DrawFuncViewModel.cs" />

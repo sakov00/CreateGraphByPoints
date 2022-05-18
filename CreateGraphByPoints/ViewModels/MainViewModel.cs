@@ -1,16 +1,16 @@
-﻿using CreateGraphByPoints.Interfaces;
+﻿using CreateGraphByPoints.Containers;
 
 namespace CreateGraphByPoints.ViewModels
 {
-    public class MainViewModel : BaseViewModel, IMainVM
+    public class MainViewModel : BaseViewModel
     {
-        private IDrawFunc _drawFuncVM;
+        private DrawFuncViewModel _drawFuncVM;
 
-        private ISaveFile _saveFileVM;
+        private SaveFileViewModel _saveFileVM;
 
         private bool _isCanProjectChange;
 
-        public ISaveFile SaveFileVM
+        public SaveFileViewModel SaveFileVM
         {
             get => _saveFileVM;
             set
@@ -20,7 +20,7 @@ namespace CreateGraphByPoints.ViewModels
             }
         }
 
-        public IDrawFunc DrawFuncVM
+        public DrawFuncViewModel DrawFuncVM
         {
             get => _drawFuncVM;
             set
@@ -42,8 +42,8 @@ namespace CreateGraphByPoints.ViewModels
 
         public MainViewModel()
         {
-            DrawFuncVM = new DrawFuncViewModel(this);
-            SaveFileVM = new SaveFileViewModel(DrawFuncVM, this);
+            DrawFuncVM = ViewModelsContainer.GetViewModel<DrawFuncViewModel>();
+            SaveFileVM = ViewModelsContainer.GetViewModel<SaveFileViewModel>();
         }
     }
 }

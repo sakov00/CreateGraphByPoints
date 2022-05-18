@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CreateGraphByPoints.Interfaces
 {
-    public interface IWorkWithFiles
+    public interface IForWorkWithFiles
     {
         void LoadInFile(List<ChartValues<ObservablePoint>> param);
 

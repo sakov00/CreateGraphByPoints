@@ -1,9 +1,10 @@
-﻿using System.ComponentModel;
+﻿using CreateGraphByPoints.Interfaces;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace CreateGraphByPoints.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged, IViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

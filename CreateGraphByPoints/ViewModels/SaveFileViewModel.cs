@@ -1,5 +1,6 @@
-﻿using CreateGraphByPoints.ClassesForWorkFiles;
+﻿using CreateGraphByPoints.ForWorkWithFiles;
 using CreateGraphByPoints.Commands;
+using CreateGraphByPoints.Containers;
 using CreateGraphByPoints.Interfaces;
 using LiveCharts;
 using LiveCharts.Defaults;
@@ -10,43 +11,28 @@ using System.Windows.Input;
 
 namespace CreateGraphByPoints.ViewModels
 {
-    public class SaveFileViewModel : BaseViewModel, ISaveFile
+    public class SaveFileViewModel : BaseViewModel
     {
         private List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
 
-        private IDrawFunc _drawFuncVM;
-
-        private IMainVM _mainVM;
-
-        public SaveFileViewModel(IDrawFunc drawFuncVM, IMainVM mainVM)
-        {
-            _drawFuncVM = drawFuncVM;
-            _mainVM = mainVM;
-        }
-
-        private void LoadInFile(object param, IWorkWithFiles WorkFile)
+        private void LoadInFile(object param, IForWorkWithFiles WorkFile)
         {
             if (param == null)
                 return;
-            var context = new ContextForWorkFiles();
-            context.SetWorkWithFiles(WorkFile);
             _listLineSeries.Clear();
             foreach (LineSeries line in (SeriesCollection)param)
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-            context.LoadInFile(_listLineSeries);
-            _mainVM.IsCanProjectChange = false;
+            WorkFile.LoadInFile(_listLineSeries);
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
         }
 
-        private void LoadFromFile(object param, IWorkWithFiles WorkFile)
+        private void LoadFromFile(object param, IForWorkWithFiles WorkFile)
         {
             var seriesCol = param as SeriesCollection;
-            var context = new ContextForWorkFiles();
-            context.SetWorkWithFiles(WorkFile);
-
             _listLineSeries.Clear();
             foreach (LineSeries line in seriesCol)
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-            context.LoadFromFile(_listLineSeries);
+            WorkFile.LoadFromFile(_listLineSeries);
 
             seriesCol.Clear();
             foreach (var line in _listLineSeries)
@@ -59,7 +45,8 @@ namespace CreateGraphByPoints.ViewModels
             }
             if (seriesCol.Count == 0)
                 return;
-            _drawFuncVM.CurrentFuncPoints = (LineSeries)seriesCol[0];
+            ViewModelsContainer.GetViewModel<DrawFuncViewModel>().CurrentFuncPoints = (LineSeries)seriesCol[0];
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
             MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
         }
 
@@ -74,7 +61,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadInExcelFile == null)
                 {
                     _cmdLoadInExcelFile = new RelayCommand(
-                        param => LoadInFile(param, new WorkForExcel())
+                        param => LoadInFile(param, WorkFilesContainer.GetForWorkWithFile<WorkForExcel>())
                         );
                 }
                 return _cmdLoadInExcelFile;
@@ -93,7 +80,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadFromExcelFile == null)
                 {
                     _cmdLoadFromExcelFile = new RelayCommand(
-                        param => LoadFromFile(param, new WorkForExcel())
+                        param => LoadFromFile(param, WorkFilesContainer.GetForWorkWithFile<WorkForExcel>())
                         );
                 }
                 return _cmdLoadFromExcelFile;
@@ -111,7 +98,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadInXmlFile == null)
                 {
                     _cmdLoadInXmlFile = new RelayCommand(
-                        param => LoadInFile(param, new WorkForXml())
+                        param => LoadInFile(param, WorkFilesContainer.GetForWorkWithFile<WorkForXml>())
                         );
                 }
                 return _cmdLoadInXmlFile;
@@ -130,7 +117,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadFromXmlFile == null)
                 {
                     _cmdLoadFromXmlFile = new RelayCommand(
-                        param => LoadFromFile(param, new WorkForXml())
+                        param => LoadFromFile(param, WorkFilesContainer.GetForWorkWithFile<WorkForXml>())
                         );
                 }
                 return _cmdLoadFromXmlFile;

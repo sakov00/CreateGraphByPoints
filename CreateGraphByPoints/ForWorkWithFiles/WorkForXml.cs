@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace CreateGraphByPoints.ClassesForWorkFiles
+namespace CreateGraphByPoints.ForWorkWithFiles
 {
-    internal class WorkForXml : IWorkWithFiles
+    internal class WorkForXml : IForWorkWithFiles
     {
         public void LoadInFile(List<ChartValues<ObservablePoint>> param)
         {
