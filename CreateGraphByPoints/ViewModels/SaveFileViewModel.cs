@@ -1,5 +1,6 @@
 ﻿using CreateGraphByPoints.ClassesForWorkFiles;
 using CreateGraphByPoints.Commands;
+using CreateGraphByPoints.Interfaces;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -9,18 +10,57 @@ using System.Windows.Input;
 
 namespace CreateGraphByPoints.ViewModels
 {
-    public class SaveFileViewModel : BaseViewModel
+    public class SaveFileViewModel : BaseViewModel, ISaveFile
     {
         private List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
 
-        private DrawFuncViewModel _drawFuncVM;
+        private IDrawFunc _drawFuncVM;
 
-        private MainViewModel _MainVM;
+        private IMainVM _mainVM;
 
-        public SaveFileViewModel(DrawFuncViewModel drawFuncVM, MainViewModel mainVM)
+        public SaveFileViewModel(IDrawFunc drawFuncVM, IMainVM mainVM)
         {
             _drawFuncVM = drawFuncVM;
-            _MainVM = mainVM;
+            _mainVM = mainVM;
+        }
+
+        private void LoadInFile(object param, IWorkWithFiles WorkFile)
+        {
+            if (param == null)
+                return;
+            var context = new ContextForWorkFiles();
+            context.SetWorkWithFiles(WorkFile);
+            _listLineSeries.Clear();
+            foreach (LineSeries line in (SeriesCollection)param)
+                _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
+            context.LoadInFile(_listLineSeries);
+            _mainVM.IsCanProjectChange = false;
+        }
+
+        private void LoadFromFile(object param, IWorkWithFiles WorkFile)
+        {
+            var seriesCol = param as SeriesCollection;
+            var context = new ContextForWorkFiles();
+            context.SetWorkWithFiles(WorkFile);
+
+            _listLineSeries.Clear();
+            foreach (LineSeries line in seriesCol)
+                _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
+            context.LoadFromFile(_listLineSeries);
+
+            seriesCol.Clear();
+            foreach (var line in _listLineSeries)
+            {
+                seriesCol.Add(new LineSeries
+                {
+                    Values = line,
+                    LineSmoothness = 0
+                });
+            }
+            if (seriesCol.Count == 0)
+                return;
+            _drawFuncVM.CurrentFuncPoints = (LineSeries)seriesCol[0];
+            MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
         }
 
         #region Commands
@@ -34,7 +74,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadInExcelFile == null)
                 {
                     _cmdLoadInExcelFile = new RelayCommand(
-                        param => LoadInExcelFile_Executed(param)
+                        param => LoadInFile(param, new WorkForExcel())
                         );
                 }
                 return _cmdLoadInExcelFile;
@@ -42,22 +82,10 @@ namespace CreateGraphByPoints.ViewModels
         }
         private RelayCommand _cmdLoadInExcelFile;
 
-        private void LoadInExcelFile_Executed(object param)
-        {
-            if(param == null)
-                return;
-            var context = new ContextForWorkFiles();
-            context.SetWorkWithFiles(new WorkForExcel());
-            _listLineSeries.Clear();
-            foreach (LineSeries line in (SeriesCollection)param)
-                _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-            context.LoadInFile(_listLineSeries);
-            _MainVM.IsCanProjectChange = false;
-        }
-
         #endregion --- LoadInExcelFile ---
 
         #region --- LoadFromExcelFile ---
+
         public ICommand LoadFromExcelFile
         {
             get
@@ -65,7 +93,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadFromExcelFile == null)
                 {
                     _cmdLoadFromExcelFile = new RelayCommand(
-                        param => LoadFromExcelFile_Executed(param)
+                        param => LoadFromFile(param, new WorkForExcel())
                         );
                 }
                 return _cmdLoadFromExcelFile;
@@ -73,31 +101,6 @@ namespace CreateGraphByPoints.ViewModels
         }
         private RelayCommand _cmdLoadFromExcelFile;
 
-        private void LoadFromExcelFile_Executed(object param)
-        {
-            var seriesCol = param as SeriesCollection;
-            var context = new ContextForWorkFiles();
-            context.SetWorkWithFiles(new WorkForExcel());
-
-            _listLineSeries.Clear();
-            foreach (LineSeries line in seriesCol)
-                _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-            context.LoadFromFile(_listLineSeries);
-
-            seriesCol.Clear();
-            foreach (var line in _listLineSeries)
-            {
-                seriesCol.Add(new LineSeries
-                {
-                    Values = line,
-                    LineSmoothness = 0
-                });
-            }
-            if (seriesCol.Count == 0)
-                return;
-            _drawFuncVM.CurrentFuncPoints = (LineSeries)seriesCol[0];
-            MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
-        }
         #endregion --- LoadFromXmlFile ---
 
         #region --- LoadInXmlFile ---
@@ -108,7 +111,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadInXmlFile == null)
                 {
                     _cmdLoadInXmlFile = new RelayCommand(
-                        param => LoadInXmlFile_Executed(param)
+                        param => LoadInFile(param, new WorkForXml())
                         );
                 }
                 return _cmdLoadInXmlFile;
@@ -116,18 +119,6 @@ namespace CreateGraphByPoints.ViewModels
         }
         private RelayCommand _cmdLoadInXmlFile;
 
-        private void LoadInXmlFile_Executed(object param)
-        {
-            if (param == null)
-                return;
-            var context = new ContextForWorkFiles();
-            context.SetWorkWithFiles(new WorkForXml());
-            _listLineSeries.Clear();
-            foreach (LineSeries line in (SeriesCollection)param)
-                _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-            context.LoadInFile(_listLineSeries);
-            _MainVM.IsCanProjectChange = false;
-        }
         #endregion --- LoadInExcelFile ---
 
         #region --- LoadFromXmlFile ---
@@ -139,39 +130,13 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadFromXmlFile == null)
                 {
                     _cmdLoadFromXmlFile = new RelayCommand(
-                        param => LoadFromXmlFile_Executed(param)
+                        param => LoadFromFile(param, new WorkForXml())
                         );
                 }
                 return _cmdLoadFromXmlFile;
             }
         }
         private RelayCommand _cmdLoadFromXmlFile;
-
-        private void LoadFromXmlFile_Executed(object param)
-        {
-            var seriesCol = param as SeriesCollection;
-            var context = new ContextForWorkFiles();
-            context.SetWorkWithFiles(new WorkForXml());
-
-            _listLineSeries.Clear();
-            foreach (LineSeries line in seriesCol)
-                _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-            context.LoadFromFile(_listLineSeries);
-
-            seriesCol.Clear();
-            foreach (var line in _listLineSeries)
-            {
-                seriesCol.Add(new LineSeries
-                {
-                    Values = line,
-                    LineSmoothness = 0
-                });
-            }
-            if (seriesCol.Count == 0)
-                return;
-            _drawFuncVM.CurrentFuncPoints = (LineSeries)seriesCol[0];
-            MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
-        }
 
         #endregion --- LoadFromXmlFile ---
 

@@ -1,4 +1,5 @@
 ﻿using CreateGraphByPoints.Commands;
+using CreateGraphByPoints.Interfaces;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
@@ -7,13 +8,13 @@ using System.Windows.Input;
 
 namespace CreateGraphByPoints.ViewModels
 {
-    public class DrawFuncViewModel : BaseViewModel
+    public class DrawFuncViewModel : BaseViewModel, IDrawFunc
     {
         private SeriesCollection _seriesCollection;
 
         private LineSeries _currentFuncPoints;
 
-        private MainViewModel _mainVM;
+        private IMainVM _mainVM;
 
         public SeriesCollection SeriesCollection
         {
@@ -35,7 +36,7 @@ namespace CreateGraphByPoints.ViewModels
             }
         }
 
-        public DrawFuncViewModel(MainViewModel mainViewModel)
+        public DrawFuncViewModel(IMainVM mainViewModel)
         {
             SeriesCollection = new SeriesCollection();
             SeriesCollection.Add(new LineSeries());

@@ -9,6 +9,7 @@ namespace CreateGraphByPoints.Views
         {
             InitializeComponent();
         }
+
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             bool showCancel = false;

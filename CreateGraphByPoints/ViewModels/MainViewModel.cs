@@ -1,17 +1,16 @@
-﻿using CreateGraphByPoints.Commands;
-using System.Windows.Input;
+﻿using CreateGraphByPoints.Interfaces;
 
 namespace CreateGraphByPoints.ViewModels
 {
-    public class MainViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel, IMainVM
     {
-        private DrawFuncViewModel _drawFuncVM;
+        private IDrawFunc _drawFuncVM;
 
-        private SaveFileViewModel _saveFileVM;
+        private ISaveFile _saveFileVM;
 
         private bool _isCanProjectChange;
 
-        public SaveFileViewModel SaveFileVM
+        public ISaveFile SaveFileVM
         {
             get => _saveFileVM;
             set
@@ -21,7 +20,7 @@ namespace CreateGraphByPoints.ViewModels
             }
         }
 
-        public DrawFuncViewModel DrawFuncVM
+        public IDrawFunc DrawFuncVM
         {
             get => _drawFuncVM;
             set

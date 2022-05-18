@@ -1,6 +1,5 @@
 ﻿using LiveCharts;
 using LiveCharts.Defaults;
-using LiveCharts.Wpf;
 using System.Collections.Generic;
 
 namespace CreateGraphByPoints.Interfaces

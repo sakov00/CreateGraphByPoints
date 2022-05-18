@@ -68,6 +68,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClassesForWorkFiles\ContextForWorkFiles.cs" />
+    <Compile Include="Interfaces\IDrawFunc.cs" />
+    <Compile Include="Interfaces\IMainVM.cs" />
+    <Compile Include="Interfaces\ISaveFile.cs" />
     <Compile Include="Interfaces\IWorkWithFiles.cs" />
     <Compile Include="ClassesForWorkFiles\WorkForExcel.cs" />
     <Compile Include="ClassesForWorkFiles\WorkForXml.cs" />
