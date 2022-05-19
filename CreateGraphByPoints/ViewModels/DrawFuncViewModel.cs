@@ -71,7 +71,7 @@ namespace CreateGraphByPoints.ViewModels
                 return;
             }
             CurrentFuncPoints.Values.Add(new ObservablePoint());
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
         }
 
         #endregion --- AddPoint ---
@@ -96,7 +96,7 @@ namespace CreateGraphByPoints.ViewModels
         private void RemovePoint_Executed(object param)
         {
             CurrentFuncPoints.Values.Remove((ObservablePoint)param);
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
         }
 
         #endregion --- RemovePoint ---
@@ -129,7 +129,7 @@ namespace CreateGraphByPoints.ViewModels
                 LineSmoothness = 0
             });
             CurrentFuncPoints = (LineSeries)SeriesCollection[SeriesCollection.Count-1];
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
         }
         #endregion --- AddFunction ---
 
@@ -161,7 +161,7 @@ namespace CreateGraphByPoints.ViewModels
             CurrentFuncPoints.Values.Clear();
             if(SeriesCollection.Count == 0)
                 CurrentFuncPoints = null;
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
         }
 
         #endregion --- RemoveFunction ---
@@ -216,7 +216,7 @@ namespace CreateGraphByPoints.ViewModels
                 point.X = cloneY;
                 point.Y= cloneX;
             }
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
         }
 
         #endregion --- InverseCurrentFunc ---

@@ -1,4 +1,6 @@
-﻿using CreateGraphByPoints.ViewModels;
+﻿using CreateGraphByPoints.Containers;
+using CreateGraphByPoints.ForWorkWithFiles;
+using CreateGraphByPoints.ViewModels;
 using System.Windows;
 
 namespace CreateGraphByPoints.Views
@@ -8,6 +10,7 @@ namespace CreateGraphByPoints.Views
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = ViewModelsContainer.GetViewModel<MainViewModel>();
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -22,6 +25,12 @@ namespace CreateGraphByPoints.Views
                     return;
                 }
             }
+            ViewModelsContainer.RemoveViewModel<MainViewModel>();
+            ViewModelsContainer.RemoveViewModel<DrawFuncViewModel>();
+            ViewModelsContainer.RemoveViewModel<SaveFileViewModel>();
+
+            WorkFilesContainer.RemoveForWorkWithFile<WorkForExcel>();
+            WorkFilesContainer.RemoveForWorkWithFile<WorkForXml>();
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

@@ -1,6 +1,4 @@
 ﻿namespace CreateGraphByPoints.Interfaces
 {
-    public interface IViewModel
-    {
-    }
+    public interface IViewModel { }
 }

@@ -8,6 +8,7 @@ using LiveCharts.Wpf;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace CreateGraphByPoints.ViewModels
 {
@@ -15,25 +16,26 @@ namespace CreateGraphByPoints.ViewModels
     {
         private List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
 
-        private void LoadInFile(object param, IForWorkWithFiles WorkFile)
+        private async void LoadInFile(object param, IForWorkWithFiles WorkFile)
         {
             if (param == null)
                 return;
             _listLineSeries.Clear();
             foreach (LineSeries line in (SeriesCollection)param)
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-            WorkFile.LoadInFile(_listLineSeries);
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
+
+            await Task.Run(()=> WorkFile.LoadInFile(_listLineSeries));
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
         }
 
-        private void LoadFromFile(object param, IForWorkWithFiles WorkFile)
+        private async void LoadFromFile(object param, IForWorkWithFiles WorkFile)
         {
             var seriesCol = param as SeriesCollection;
             _listLineSeries.Clear();
             foreach (LineSeries line in seriesCol)
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-            WorkFile.LoadFromFile(_listLineSeries);
 
+            await Task.Run(() => WorkFile.LoadFromFile(_listLineSeries));
             seriesCol.Clear();
             foreach (var line in _listLineSeries)
             {
@@ -46,7 +48,7 @@ namespace CreateGraphByPoints.ViewModels
             if (seriesCol.Count == 0)
                 return;
             ViewModelsContainer.GetViewModel<DrawFuncViewModel>().CurrentFuncPoints = (LineSeries)seriesCol[0];
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = true;
+            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
             MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
         }
 

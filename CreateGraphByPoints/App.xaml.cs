@@ -12,19 +12,21 @@ namespace CreateGraphByPoints
         {
             StartupUri = new Uri("/CreateGraphByPoints;component/Views/MainWindow.xaml", UriKind.Relative);
 
-            ViewModelsContainer.Register<MainViewModel>();
             ViewModelsContainer.Register<DrawFuncViewModel>();
             ViewModelsContainer.Register<SaveFileViewModel>();
+            ViewModelsContainer.Register<MainViewModel>();
 
             WorkFilesContainer.Register<WorkForExcel>();
             WorkFilesContainer.Register<WorkForXml>();
 
-            ViewModelsContainer.CreateViewModel<MainViewModel>();
             ViewModelsContainer.CreateViewModel<DrawFuncViewModel>();
             ViewModelsContainer.CreateViewModel<SaveFileViewModel>();
+            ViewModelsContainer.CreateViewModel<MainViewModel>();
 
             WorkFilesContainer.CreateForWorkWithFile<WorkForExcel>();
             WorkFilesContainer.CreateForWorkWithFile<WorkForXml>();
+
+
         }
     }
 }

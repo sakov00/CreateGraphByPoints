@@ -10,15 +10,17 @@ namespace CreateGraphByPoints.Containers
 
         public static void Register<T>() where T : IForWorkWithFiles => instances[typeof(T)] = null;
 
-        public static T CreateForWorkWithFile<T>() where T : IForWorkWithFiles
+        public static void CreateForWorkWithFile<T>() where T : IForWorkWithFiles
         {
             if (instances.TryGetValue(typeof(T), out IForWorkWithFiles typeOfFile))
             {
-                typeOfFile = (T)Activator.CreateInstance(typeof(T));
-                instances[typeof(T)] = typeOfFile;
+                if (typeOfFile == null)
+                {
+                    instances[typeof(T)] = (T)Activator.CreateInstance(typeof(T));
+                }
             }
-            return (T)typeOfFile;
         }
+
         public static T GetForWorkWithFile<T>() where T : IForWorkWithFiles
         {
             if (instances.TryGetValue(typeof(T), out IForWorkWithFiles typeOfFile))
@@ -26,6 +28,14 @@ namespace CreateGraphByPoints.Containers
                 typeOfFile = instances[typeof(T)];
             }
             return (T)typeOfFile;
+        }
+
+        public static void RemoveForWorkWithFile<T>() where T : IForWorkWithFiles
+        {
+            if (instances.TryGetValue(typeof(T), out IForWorkWithFiles typeOfFile))
+            {
+                instances.Remove(typeof(T));
+            }
         }
     }
 }

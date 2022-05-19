@@ -10,15 +10,17 @@ namespace CreateGraphByPoints.Containers
 
         public static void Register<T>() where T : IViewModel => instances[typeof(T)] = null;
 
-        public static T CreateViewModel<T>() where T : IViewModel
+        public static void CreateViewModel<T>() where T : IViewModel
         {
             if (instances.TryGetValue(typeof(T), out IViewModel viewModel))
             {
-                viewModel = (T)Activator.CreateInstance(typeof(T));
-                instances[typeof(T)] = viewModel;
+                if (viewModel == null)
+                {
+                    instances[typeof(T)] = (T)Activator.CreateInstance(typeof(T));
+                }
             }
-            return (T)viewModel;
         }
+
         public static T GetViewModel<T>() where T : IViewModel
         {
             if (instances.TryGetValue(typeof(T), out IViewModel viewModel))
@@ -26,6 +28,14 @@ namespace CreateGraphByPoints.Containers
                 viewModel = instances[typeof(T)];
             }
             return (T)viewModel;
+        }
+
+        public static void RemoveViewModel<T>() where T : IViewModel
+        {
+            if (instances.TryGetValue(typeof(T), out _))
+            {
+                instances.Remove(typeof(T));
+            }
         }
     }
 }
