@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace CreateGraphByPoints.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged, IViewModel
+    public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

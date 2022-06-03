@@ -1,6 +1,4 @@
-﻿using CreateGraphByPoints.Containers;
-
-namespace CreateGraphByPoints.ViewModels
+﻿namespace CreateGraphByPoints.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
@@ -8,7 +6,7 @@ namespace CreateGraphByPoints.ViewModels
 
         private SaveFileViewModel _saveFileVM;
 
-        private bool _isCanProjectChange;
+        private bool _isCanProjectChanged;
 
         public SaveFileViewModel SaveFileVM
         {
@@ -30,20 +28,20 @@ namespace CreateGraphByPoints.ViewModels
             }
         }
 
-        public bool IsCanProjectChange
+        public bool IsCanProjectChanged
         {
-            get => _isCanProjectChange;
+            get => _isCanProjectChanged;
             set
             {
-                _isCanProjectChange = value;
+                _isCanProjectChanged = value;
                 OnPropertyChanged();
             }
         }
 
-        public MainViewModel()
+        public MainViewModel(DrawFuncViewModel drawFuncVM, SaveFileViewModel saveFileVM)
         {
-            DrawFuncVM = ViewModelsContainer.GetViewModel<DrawFuncViewModel>();
-            SaveFileVM = ViewModelsContainer.GetViewModel<SaveFileViewModel>();
+            DrawFuncVM = drawFuncVM;
+            SaveFileVM = saveFileVM;
         }
     }
 }

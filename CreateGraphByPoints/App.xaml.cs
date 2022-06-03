@@ -1,7 +1,12 @@
-﻿using CreateGraphByPoints.Containers;
+﻿using Autofac;
+using Autofac.Core;
+using CreateGraphByPoints.Containers;
 using CreateGraphByPoints.ForWorkWithFiles;
+using CreateGraphByPoints.Interfaces;
 using CreateGraphByPoints.ViewModels;
+using CreateGraphByPoints.Views;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace CreateGraphByPoints
@@ -11,22 +16,7 @@ namespace CreateGraphByPoints
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             StartupUri = new Uri("/CreateGraphByPoints;component/Views/MainWindow.xaml", UriKind.Relative);
-
-            ViewModelsContainer.Register<DrawFuncViewModel>();
-            ViewModelsContainer.Register<SaveFileViewModel>();
-            ViewModelsContainer.Register<MainViewModel>();
-
-            WorkFilesContainer.Register<WorkForExcel>();
-            WorkFilesContainer.Register<WorkForXml>();
-
-            ViewModelsContainer.CreateViewModel<DrawFuncViewModel>();
-            ViewModelsContainer.CreateViewModel<SaveFileViewModel>();
-            ViewModelsContainer.CreateViewModel<MainViewModel>();
-
-            WorkFilesContainer.CreateForWorkWithFile<WorkForExcel>();
-            WorkFilesContainer.CreateForWorkWithFile<WorkForXml>();
-
-
+            AutofacConfig.ConfigureContainer();
         }
     }
 }

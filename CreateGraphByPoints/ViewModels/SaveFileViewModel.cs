@@ -9,12 +9,25 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using Autofac;
 
 namespace CreateGraphByPoints.ViewModels
 {
     public class SaveFileViewModel : BaseViewModel
     {
         private List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
+
+        private DrawFuncViewModel _drawFuncVM;
+
+        public DrawFuncViewModel DrawFuncVM
+        {
+            get => _drawFuncVM;
+            set
+            {
+                _drawFuncVM = value;
+                OnPropertyChanged();
+            }
+        }
 
         private async void LoadInFile(object param, IForWorkWithFiles WorkFile)
         {
@@ -25,7 +38,6 @@ namespace CreateGraphByPoints.ViewModels
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
 
             await Task.Run(()=> WorkFile.LoadInFile(_listLineSeries));
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
         }
 
         private async void LoadFromFile(object param, IForWorkWithFiles WorkFile)
@@ -47,8 +59,7 @@ namespace CreateGraphByPoints.ViewModels
             }
             if (seriesCol.Count == 0)
                 return;
-            ViewModelsContainer.GetViewModel<DrawFuncViewModel>().CurrentFuncPoints = (LineSeries)seriesCol[0];
-            ViewModelsContainer.GetViewModel<MainViewModel>().IsCanProjectChange = false;
+            DrawFuncVM.CurrentFuncPoints = (LineSeries)seriesCol[0];
             MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
         }
 
@@ -63,7 +74,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadInExcelFile == null)
                 {
                     _cmdLoadInExcelFile = new RelayCommand(
-                        param => LoadInFile(param, WorkFilesContainer.GetForWorkWithFile<WorkForExcel>())
+                        param => LoadInFile(param, AutofacConfig.GetContainer.Resolve<WorkForExcel>())
                         );
                 }
                 return _cmdLoadInExcelFile;
@@ -82,7 +93,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadFromExcelFile == null)
                 {
                     _cmdLoadFromExcelFile = new RelayCommand(
-                        param => LoadFromFile(param, WorkFilesContainer.GetForWorkWithFile<WorkForExcel>())
+                        param => LoadFromFile(param, AutofacConfig.GetContainer.Resolve<WorkForExcel>())
                         );
                 }
                 return _cmdLoadFromExcelFile;
@@ -100,7 +111,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadInXmlFile == null)
                 {
                     _cmdLoadInXmlFile = new RelayCommand(
-                        param => LoadInFile(param, WorkFilesContainer.GetForWorkWithFile<WorkForXml>())
+                        param => LoadInFile(param, AutofacConfig.GetContainer.Resolve<WorkForXml>())
                         );
                 }
                 return _cmdLoadInXmlFile;
@@ -119,7 +130,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadFromXmlFile == null)
                 {
                     _cmdLoadFromXmlFile = new RelayCommand(
-                        param => LoadFromFile(param, WorkFilesContainer.GetForWorkWithFile<WorkForXml>())
+                        param => LoadFromFile(param, AutofacConfig.GetContainer.Resolve<WorkForXml>())
                         );
                 }
                 return _cmdLoadFromXmlFile;
