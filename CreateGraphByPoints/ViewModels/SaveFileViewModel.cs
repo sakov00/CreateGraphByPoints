@@ -1,6 +1,5 @@
 ﻿using CreateGraphByPoints.ForWorkWithFiles;
 using CreateGraphByPoints.Commands;
-using CreateGraphByPoints.Containers;
 using CreateGraphByPoints.Interfaces;
 using LiveCharts;
 using LiveCharts.Defaults;
@@ -9,15 +8,23 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
-using Autofac;
 
 namespace CreateGraphByPoints.ViewModels
 {
     public class SaveFileViewModel : BaseViewModel
     {
-        private List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
+        private readonly WorkForExcel _workForExcel;
+
+        private readonly WorkForXml _workForXml;
 
         private DrawFuncViewModel _drawFuncVM;
+
+        public SaveFileViewModel(DrawFuncViewModel drawFuncVM, WorkForExcel workForExcel, WorkForXml workForXml)
+        {
+            _drawFuncVM = drawFuncVM;
+            _workForExcel = workForExcel;
+            _workForXml = workForXml;
+        }
 
         public DrawFuncViewModel DrawFuncVM
         {
@@ -33,7 +40,8 @@ namespace CreateGraphByPoints.ViewModels
         {
             if (param == null)
                 return;
-            _listLineSeries.Clear();
+
+            List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
             foreach (LineSeries line in (SeriesCollection)param)
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
 
@@ -44,12 +52,14 @@ namespace CreateGraphByPoints.ViewModels
         private async void LoadFromFile(object param, IForWorkWithFiles WorkFile)
         {
             var seriesCol = param as SeriesCollection;
-            _listLineSeries.Clear();
+
+            List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
             foreach (LineSeries line in seriesCol)
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
 
             await Task.Run(() => WorkFile.LoadFromFile(_listLineSeries));
             seriesCol.Clear();
+
             foreach (var line in _listLineSeries)
             {
                 seriesCol.Add(new LineSeries
@@ -58,8 +68,10 @@ namespace CreateGraphByPoints.ViewModels
                     LineSmoothness = 0
                 });
             }
+
             if (seriesCol.Count == 0)
                 return;
+
             DrawFuncVM.CurrentFuncPoints = (LineSeries)seriesCol[0];
             IsCanProjectChanged = false;
             MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
@@ -76,7 +88,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadInExcelFile == null)
                 {
                     _cmdLoadInExcelFile = new RelayCommand(
-                        param => LoadInFile(param, AutofacConfig.GetContainer.Resolve<WorkForExcel>())
+                        param => LoadInFile(param, _workForExcel)
                         );
                 }
                 return _cmdLoadInExcelFile;
@@ -95,7 +107,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadFromExcelFile == null)
                 {
                     _cmdLoadFromExcelFile = new RelayCommand(
-                        param => LoadFromFile(param, AutofacConfig.GetContainer.Resolve<WorkForExcel>())
+                        param => LoadFromFile(param, _workForExcel)
                         );
                 }
                 return _cmdLoadFromExcelFile;
@@ -113,7 +125,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadInXmlFile == null)
                 {
                     _cmdLoadInXmlFile = new RelayCommand(
-                        param => LoadInFile(param, AutofacConfig.GetContainer.Resolve<WorkForXml>())
+                        param => LoadInFile(param, _workForXml)
                         );
                 }
                 return _cmdLoadInXmlFile;
@@ -132,7 +144,7 @@ namespace CreateGraphByPoints.ViewModels
                 if (_cmdLoadFromXmlFile == null)
                 {
                     _cmdLoadFromXmlFile = new RelayCommand(
-                        param => LoadFromFile(param, AutofacConfig.GetContainer.Resolve<WorkForXml>())
+                        param => LoadFromFile(param, _workForXml)
                         );
                 }
                 return _cmdLoadFromXmlFile;

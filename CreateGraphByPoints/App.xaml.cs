@@ -1,12 +1,5 @@
-﻿using Autofac;
-using Autofac.Core;
-using CreateGraphByPoints.Containers;
-using CreateGraphByPoints.ForWorkWithFiles;
-using CreateGraphByPoints.Interfaces;
-using CreateGraphByPoints.ViewModels;
-using CreateGraphByPoints.Views;
+﻿using CreateGraphByPoints.Containers;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace CreateGraphByPoints

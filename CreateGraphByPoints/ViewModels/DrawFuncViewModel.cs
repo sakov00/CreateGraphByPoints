@@ -1,5 +1,4 @@
 ﻿using CreateGraphByPoints.Commands;
-using CreateGraphByPoints.Containers;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;

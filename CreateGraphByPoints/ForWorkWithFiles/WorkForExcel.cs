@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace CreateGraphByPoints.ForWorkWithFiles
 {
-    internal class WorkForExcel : IForWorkWithFiles
+    public class WorkForExcel : IForWorkWithFiles
     {
         public void LoadInFile(List<ChartValues<ObservablePoint>> param)
         {
