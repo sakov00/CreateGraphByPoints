@@ -102,6 +102,15 @@
     <Compile Include="ForWorkWithFiles\WorkForExcel.cs" />
     <Compile Include="ForWorkWithFiles\WorkForXml.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="UserControls\ChartUserControl.xaml.cs">
+      <DependentUpon>ChartUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ListPointsUserControl.xaml.cs">
+      <DependentUpon>ListPointsUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\MenuUserControl.xaml.cs">
+      <DependentUpon>MenuUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\DrawFuncViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -113,6 +122,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UserControls\ChartUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\ListPointsUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MenuUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
