@@ -6,8 +6,6 @@
 
         private SaveFileViewModel _saveFileVM;
 
-        private bool _isCanProjectChanged;
-
         public SaveFileViewModel SaveFileVM
         {
             get => _saveFileVM;
@@ -24,16 +22,6 @@
             set
             {
                 _drawFuncVM = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool IsCanProjectChanged
-        {
-            get => _isCanProjectChanged;
-            set
-            {
-                _isCanProjectChanged = value;
                 OnPropertyChanged();
             }
         }

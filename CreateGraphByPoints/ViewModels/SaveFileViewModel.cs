@@ -38,6 +38,7 @@ namespace CreateGraphByPoints.ViewModels
                 _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
 
             await Task.Run(()=> WorkFile.LoadInFile(_listLineSeries));
+            IsCanProjectChanged = false;
         }
 
         private async void LoadFromFile(object param, IForWorkWithFiles WorkFile)
@@ -60,6 +61,7 @@ namespace CreateGraphByPoints.ViewModels
             if (seriesCol.Count == 0)
                 return;
             DrawFuncVM.CurrentFuncPoints = (LineSeries)seriesCol[0];
+            IsCanProjectChanged = false;
             MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
         }
 

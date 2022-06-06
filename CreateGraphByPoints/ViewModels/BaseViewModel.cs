@@ -1,5 +1,4 @@
-﻿using CreateGraphByPoints.Interfaces;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace CreateGraphByPoints.ViewModels
@@ -8,10 +7,14 @@ namespace CreateGraphByPoints.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        protected static bool IsCanProjectChanged { get; set; }
+
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
+
+        public bool GetIsProjectChanged() => IsCanProjectChanged;
+
     }
 }

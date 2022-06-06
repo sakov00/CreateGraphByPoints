@@ -71,6 +71,7 @@ namespace CreateGraphByPoints.ViewModels
                 return;
             }
             CurrentFuncPoints.Values.Add(new ObservablePoint());
+            IsCanProjectChanged = true;
         }
 
         #endregion --- AddPoint ---
@@ -95,6 +96,7 @@ namespace CreateGraphByPoints.ViewModels
         private void RemovePoint_Executed(object param)
         {
             CurrentFuncPoints.Values.Remove((ObservablePoint)param);
+            IsCanProjectChanged = true;
         }
 
         #endregion --- RemovePoint ---
@@ -127,6 +129,7 @@ namespace CreateGraphByPoints.ViewModels
                 LineSmoothness = 0
             });
             CurrentFuncPoints = (LineSeries)SeriesCollection[SeriesCollection.Count-1];
+            IsCanProjectChanged = true;
         }
         #endregion --- AddFunction ---
 
@@ -158,6 +161,7 @@ namespace CreateGraphByPoints.ViewModels
             CurrentFuncPoints.Values.Clear();
             if(SeriesCollection.Count == 0)
                 CurrentFuncPoints = null;
+            IsCanProjectChanged = true;
         }
 
         #endregion --- RemoveFunction ---
@@ -212,6 +216,7 @@ namespace CreateGraphByPoints.ViewModels
                 point.X = cloneY;
                 point.Y= cloneX;
             }
+            IsCanProjectChanged = true;
         }
 
         #endregion --- InverseCurrentFunc ---

@@ -84,8 +84,7 @@
             <MenuItem Header="Remove function"
                       Command="{Binding DrawFuncVM.RemoveFunction}"/>
             <MenuItem Header="Inverse current function" 
-                      Command="{Binding DrawFuncVM.InverseCurrentFunc}">
-            </MenuItem>
+                      Command="{Binding DrawFuncVM.InverseCurrentFunc}"/>
         </Menu>
     </Grid>
 </Window>
