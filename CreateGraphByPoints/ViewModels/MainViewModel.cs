@@ -2,34 +2,34 @@
 {
     public class MainViewModel : BaseViewModel
     {
-        private DrawFuncViewModel _drawFuncVM;
+        private InteractionOnCanvasViewModel interactionOnCanvasVM;
 
-        private SaveFileViewModel _saveFileVM;
+        private InteractionWithFilesViewModel interactionWithFilesVM;
 
-        public SaveFileViewModel SaveFileVM
+        public InteractionWithFilesViewModel InteractionWithFilesVM
         {
-            get => _saveFileVM;
+            get => interactionWithFilesVM;
             set
             {
-                _saveFileVM = value;
+                interactionWithFilesVM = value;
                 OnPropertyChanged();  
             }
         }
 
-        public DrawFuncViewModel DrawFuncVM
+        public InteractionOnCanvasViewModel InteractionOnCanvasVM
         {
-            get => _drawFuncVM;
+            get => interactionOnCanvasVM;
             set
             {
-                _drawFuncVM = value;
+                interactionOnCanvasVM = value;
                 OnPropertyChanged();
             }
         }
 
-        public MainViewModel(DrawFuncViewModel drawFuncVM, SaveFileViewModel saveFileVM)
+        public MainViewModel(InteractionOnCanvasViewModel paramInteractionOnCanvasVM, InteractionWithFilesViewModel paramInteractionWithFilesVM)
         {
-            DrawFuncVM = drawFuncVM;
-            SaveFileVM = saveFileVM;
+            interactionOnCanvasVM = paramInteractionOnCanvasVM;
+            interactionWithFilesVM = paramInteractionWithFilesVM;
         }
     }
 }

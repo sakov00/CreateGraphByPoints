@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <lvc:CartesianChart Series="{Binding DrawFuncVM.SeriesCollection}"
+        <lvc:CartesianChart Series="{Binding InteractionOnCanvasVM.SeriesCollection}"
                             Margin="10"
-                            DataClickCommand="{Binding DrawFuncVM.ChangeCurrentFuncPoints}">
+                            DataClickCommand="{Binding InteractionOnCanvasVM.ChangeCurrentFunction}">
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="X" FontSize="14"></lvc:Axis>
             </lvc:CartesianChart.AxisX>

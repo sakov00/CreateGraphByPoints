@@ -9,28 +9,28 @@
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Save in file">
                 <MenuItem Header="Save in Excel" 
-                          Command="{Binding SaveFileVM.LoadInExcelFile}"
-                          CommandParameter="{Binding DrawFuncVM.SeriesCollection}"/>
+                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInExcel}"
+                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
                 <MenuItem Header="Save in Xml" 
-                          Command="{Binding SaveFileVM.LoadInXmlFile}" 
-                          CommandParameter="{Binding DrawFuncVM.SeriesCollection}"/>
+                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInXml}" 
+                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
             </MenuItem>
             <MenuItem Header="Load from file">
                 <MenuItem Header="Load from Excel" 
-                          Command="{Binding SaveFileVM.LoadFromExcelFile}"
-                          CommandParameter="{Binding DrawFuncVM.SeriesCollection}"/>
+                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromExcel}"
+                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
                 <MenuItem Header="Load from Xml" 
-                          Command="{Binding SaveFileVM.LoadFromXmlFile}"
-                          CommandParameter="{Binding DrawFuncVM.SeriesCollection}"/>
+                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromXml}"
+                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
             </MenuItem>
             <MenuItem Header="Add point" 
-                      Command="{Binding DrawFuncVM.AddPoint}"/>
+                      Command="{Binding InteractionOnCanvasVM.AddPoint}"/>
             <MenuItem Header="Add function" 
-                      Command="{Binding DrawFuncVM.AddFunction}"/>
+                      Command="{Binding InteractionOnCanvasVM.AddFunction}"/>
             <MenuItem Header="Remove function"
-                      Command="{Binding DrawFuncVM.RemoveFunction}"/>
+                      Command="{Binding InteractionOnCanvasVM.RemoveFunction}"/>
             <MenuItem Header="Inverse current function" 
-                      Command="{Binding DrawFuncVM.InverseCurrentFunc}"/>
+                      Command="{Binding InteractionOnCanvasVM.InverseCurrentFunction}"/>
         </Menu>
     </Grid>
 </UserControl>

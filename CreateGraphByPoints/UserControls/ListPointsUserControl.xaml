@@ -8,7 +8,7 @@
     <Grid>
         <Label Content="X" HorizontalAlignment="Left" Margin="60,0,0,0" VerticalAlignment="Top"/>
         <Label Content="Y" HorizontalAlignment="Left" Margin="140,0,0,0" VerticalAlignment="Top"/>
-        <ListBox ItemsSource="{Binding DrawFuncVM.CurrentFuncPoints.Values, UpdateSourceTrigger=PropertyChanged}"
+        <ListBox ItemsSource="{Binding InteractionOnCanvasVM.CurrentFunction.Values, UpdateSourceTrigger=PropertyChanged}"
                  SelectedItem="{Binding SelectedIndex}"
                  Grid.Column="1"
                  Grid.Row="1"
@@ -29,7 +29,7 @@
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Center"
                                  Margin="30,0,0,0"/>
-                        <Button Command="{Binding Path=DataContext.DrawFuncVM.RemovePoint,
+                        <Button Command="{Binding Path=DataContext.InteractionOnCanvasVM.RemovePoint,
                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBox}}}"
                                 CommandParameter="{Binding}"
                                 Content="Delete"

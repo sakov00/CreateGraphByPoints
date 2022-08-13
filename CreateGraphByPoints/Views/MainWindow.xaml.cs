@@ -10,10 +10,7 @@ namespace CreateGraphByPoints.Views
         public MainWindow()
         {
             InitializeComponent();
-            using (var scope = AutofacConfig.GetContainer.BeginLifetimeScope())
-            {
-                DataContext = scope.Resolve<MainViewModel>();
-            }
+            DataContext = AutofacConfig.GetContainer.Resolve<MainViewModel>();
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)

@@ -98,7 +98,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Containers\AutofacConfig.cs" />
-    <Compile Include="Interfaces\IForWorkWithFiles.cs" />
+    <Compile Include="Interfaces\ILoadAndUnloadFunctionsInFile.cs" />
     <Compile Include="ForWorkWithFiles\WorkForExcel.cs" />
     <Compile Include="ForWorkWithFiles\WorkForXml.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
@@ -112,9 +112,9 @@
       <DependentUpon>MenuUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\DrawFuncViewModel.cs" />
+    <Compile Include="ViewModels\InteractionOnCanvasViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\SaveFileViewModel.cs" />
+    <Compile Include="ViewModels\InteractionWithFilesViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

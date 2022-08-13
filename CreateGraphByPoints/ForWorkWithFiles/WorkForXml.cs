@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace CreateGraphByPoints.ForWorkWithFiles
 {
-    public class WorkForXml : IForWorkWithFiles
+    public class WorkWithXml : ILoadAndUnloadFunctionsInFile
     {
         public void LoadInFile(List<ChartValues<ObservablePoint>> param)
         {
