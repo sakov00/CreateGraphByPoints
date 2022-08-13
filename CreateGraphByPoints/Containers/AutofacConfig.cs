@@ -15,8 +15,18 @@ namespace CreateGraphByPoints.Containers
             builder.RegisterType<WorkWithExcel>().AsSelf();
             builder.RegisterType<WorkWithXml>().AsSelf();
 
-            builder.Register(x => new InteractionWithFilesViewModel(x.Resolve<InteractionOnCanvasViewModel>(), x.Resolve<WorkWithExcel>(), x.Resolve<WorkWithXml>()));
-            builder.Register(x => new MainViewModel(x.Resolve<InteractionOnCanvasViewModel>(), x.Resolve<InteractionWithFilesViewModel>()));
+            builder.Register(x => new InteractionWithFilesViewModel
+            (
+                x.Resolve<InteractionOnCanvasViewModel>(),
+                x.Resolve<WorkWithExcel>(),
+                x.Resolve<WorkWithXml>())
+            );
+
+            builder.Register(x => new MainViewModel
+            (
+                x.Resolve<InteractionOnCanvasViewModel>(),
+                x.Resolve<InteractionWithFilesViewModel>())
+            );
 
             GetContainer = builder.Build();
         }

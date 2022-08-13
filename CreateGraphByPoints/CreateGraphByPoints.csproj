@@ -99,8 +99,8 @@
     </ApplicationDefinition>
     <Compile Include="Containers\AutofacConfig.cs" />
     <Compile Include="Interfaces\ILoadAndUnloadFunctionsInFile.cs" />
-    <Compile Include="ForWorkWithFiles\WorkForExcel.cs" />
-    <Compile Include="ForWorkWithFiles\WorkForXml.cs" />
+    <Compile Include="ForWorkWithFiles\WorkWithExcel.cs" />
+    <Compile Include="ForWorkWithFiles\WorkWithXml.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="UserControls\ChartUserControl.xaml.cs">
       <DependentUpon>ChartUserControl.xaml</DependentUpon>
