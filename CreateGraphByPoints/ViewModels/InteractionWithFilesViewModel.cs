@@ -25,64 +25,68 @@ namespace CreateGraphByPoints.ViewModels
             }
         }
 
-        public InteractionWithFilesViewModel(InteractionOnCanvasViewModel paramInteractionOnCanvasVM, WorkWithExcel WorkWithExcel, WorkWithXml WorkWithXml)
+        public InteractionWithFilesViewModel(WorkWithJson WorkWithJson, WorkWithXml WorkWithXml)
         {
-            interactionOnCanvasVM = paramInteractionOnCanvasVM;
-
-            LoadFunctionsInExcel = new RelayCommand(param => LoadFunctionsInFile(param, WorkWithExcel));
-            UnloadFunctionsFromExcel = new RelayCommand(param => UnloadFunctionsFromFile(param, WorkWithExcel));
-            LoadFunctionsInXml = new RelayCommand(param => LoadFunctionsInFile(param, WorkWithXml));
-            UnloadFunctionsFromXml = new RelayCommand(param => UnloadFunctionsFromFile(param, WorkWithXml));
+            LoadFunctionsInJson = new RelayCommand(param => LoadFunctionsInFile(WorkWithJson));
+            UnloadFunctionsFromJson = new RelayCommand(param => UnloadFunctionsFromFile(WorkWithJson));
+            LoadFunctionsInXml = new RelayCommand(param => LoadFunctionsInFile(WorkWithXml));
+            UnloadFunctionsFromXml = new RelayCommand(param => UnloadFunctionsFromFile(WorkWithXml));
         }
 
         #region Commands
 
-        public ICommand LoadFunctionsInExcel { get; private set; }
+        public ICommand LoadFunctionsInJson { get; private set; }
 
         public ICommand LoadFunctionsInXml { get; private set; }
 
-        private async void LoadFunctionsInFile(object param, ILoadAndUnloadFunctionsInFile WorkFile)
+        private async void LoadFunctionsInFile(ILoadAndUnloadFunctionsInFile WorkFile)
         {
-            List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
-            foreach (LineSeries line in (SeriesCollection)param)
-                _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-
-            await Task.Run(() => WorkFile.LoadInFile(_listLineSeries));
+            await Task.Run(() => WorkFile.LoadInFile(SeriesCollectionConvertToListChartValues()));
             IsCanProjectChanged = false;
         }
 
-        public ICommand UnloadFunctionsFromExcel { get; private set; }
+        public ICommand UnloadFunctionsFromJson { get; private set; }
 
         public ICommand UnloadFunctionsFromXml { get; private set; }
 
-        private async void UnloadFunctionsFromFile(object param, ILoadAndUnloadFunctionsInFile WorkFile)
+        private async void UnloadFunctionsFromFile(ILoadAndUnloadFunctionsInFile WorkFile)
         {
-            var seriesCol = param as SeriesCollection;
+            var listChartValues = await Task.Run(() => WorkFile.LoadFromFile());
+            InteractionOnCanvasVM.SeriesCollection = ListChartValuesConvertToSeriesCollection(listChartValues);
 
-            List<ChartValues<ObservablePoint>> _listLineSeries = new List<ChartValues<ObservablePoint>>();
-            foreach (LineSeries line in seriesCol)
-                _listLineSeries.Add((ChartValues<ObservablePoint>)line.Values);
-
-            await Task.Run(() => WorkFile.LoadFromFile(_listLineSeries));
-            seriesCol.Clear();
-
-            foreach (var line in _listLineSeries)
+            if (InteractionOnCanvasVM.SeriesCollection.Count == 0)
             {
-                seriesCol.Add(new LineSeries
-                {
-                    Values = line,
-                    LineSmoothness = 0
-                });
+                MessageBox.Show("The file is empty");
+                return;
             }
 
-            if (seriesCol.Count == 0)
-                return;
-
-            InteractionOnCanvasVM.CurrentFunction = (LineSeries)seriesCol[0];
+            InteractionOnCanvasVM.CurrentFunction = (LineSeries)InteractionOnCanvasVM.SeriesCollection[0];
             IsCanProjectChanged = false;
             MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
         }
 
         #endregion Commands
+
+        private List<ChartValues<ObservablePoint>> SeriesCollectionConvertToListChartValues()
+        {
+            var listChartValues = new List<ChartValues<ObservablePoint>>();
+            foreach (LineSeries line in InteractionOnCanvasVM.SeriesCollection)
+                listChartValues.Add((ChartValues<ObservablePoint>)line.Values);
+            return listChartValues;
+        }
+
+        private SeriesCollection ListChartValuesConvertToSeriesCollection(List<ChartValues<ObservablePoint>> listChartValues)
+        {
+            var listLineSeries = new SeriesCollection();
+            foreach (var line in listChartValues)
+            {
+                listLineSeries.Add(new LineSeries
+                {
+                    Values = line,
+                    LineSmoothness = 0
+                });
+            }
+            return listLineSeries;
+        }
     }
 }

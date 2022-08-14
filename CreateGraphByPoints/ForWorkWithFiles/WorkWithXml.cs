@@ -20,7 +20,7 @@ namespace CreateGraphByPoints.ForWorkWithFiles
             }
         }
 
-        public void LoadFromFile(List<ChartValues<ObservablePoint>> param)
+        public List<ChartValues<ObservablePoint>> LoadFromFile()
         {
             var dataFromFile = new List<ChartValues<ObservablePoint>>();
             var xmlSerializer = new XmlSerializer(typeof(List<ChartValues<ObservablePoint>>));
@@ -28,11 +28,7 @@ namespace CreateGraphByPoints.ForWorkWithFiles
             {
                 dataFromFile = (List<ChartValues<ObservablePoint>>)xmlSerializer.Deserialize(fs);
             }
-            param.Clear();
-            foreach (var obj in dataFromFile)
-            {
-                param.Add(obj);
-            }
+            return dataFromFile;
         }
     }
 }

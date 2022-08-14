@@ -3,30 +3,30 @@
 namespace TestCreateGraphByPoints
 {
     [TestClass]
-    public class TestWorkWithExcelFiles
+    public class TestWorkWithJsonFiles
     {
         [TestMethod]
-        public void TestLoadExcelInFile()
+        public void TestLoadJsonInFile()
         {
         }
 
         [TestMethod]
-        public void TestUnloadExcelFromFile()
+        public void TestUnloadJsonFromFile()
         {
         }
 
         [TestMethod]
-        public void TestLoadNullExcelInFile()
+        public void TestLoadNullJsonInFile()
         {
         }
 
         [TestMethod]
-        public void TestUnloadNullExcelFromFile()
+        public void TestUnloadNullJsonFromFile()
         {
         }
 
         [TestMethod]
-        public void TestUnloadNotValidExcelFromFile()
+        public void TestUnloadNotValidJsonFromFile()
         {
         }
     }

@@ -30,6 +30,7 @@
         {
             interactionOnCanvasVM = paramInteractionOnCanvasVM;
             interactionWithFilesVM = paramInteractionWithFilesVM;
+            interactionWithFilesVM.InteractionOnCanvasVM = paramInteractionOnCanvasVM;
         }
     }
 }

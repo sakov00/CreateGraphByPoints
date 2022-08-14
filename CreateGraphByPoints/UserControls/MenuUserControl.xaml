@@ -8,20 +8,16 @@
     <Grid>
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Save in file">
-                <MenuItem Header="Save in Excel" 
-                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInExcel}"
-                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
+                <MenuItem Header="Save in Json" 
+                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInJson}"/>
                 <MenuItem Header="Save in Xml" 
-                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInXml}" 
-                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
+                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInXml}" />
             </MenuItem>
             <MenuItem Header="Load from file">
-                <MenuItem Header="Load from Excel" 
-                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromExcel}"
-                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
+                <MenuItem Header="Load from Json" 
+                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromJson}"/>
                 <MenuItem Header="Load from Xml" 
-                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromXml}"
-                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
+                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromXml}"/>
             </MenuItem>
             <MenuItem Header="Add point" 
                       Command="{Binding InteractionOnCanvasVM.AddPoint}"/>
