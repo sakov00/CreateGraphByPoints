@@ -9,15 +9,19 @@
         <Menu VerticalAlignment="Top">
             <MenuItem Header="Save in file">
                 <MenuItem Header="Save in Json" 
-                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInJson}"/>
+                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInJson}"
+                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
                 <MenuItem Header="Save in Xml" 
-                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInXml}" />
+                          Command="{Binding InteractionWithFilesVM.LoadFunctionsInXml}"
+                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
             </MenuItem>
             <MenuItem Header="Load from file">
                 <MenuItem Header="Load from Json" 
-                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromJson}"/>
+                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromJson}"
+                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
                 <MenuItem Header="Load from Xml" 
-                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromXml}"/>
+                          Command="{Binding InteractionWithFilesVM.UnloadFunctionsFromXml}"
+                          CommandParameter="{Binding InteractionOnCanvasVM.SeriesCollection}"/>
             </MenuItem>
             <MenuItem Header="Add point" 
                       Command="{Binding InteractionOnCanvasVM.AddPoint}"/>

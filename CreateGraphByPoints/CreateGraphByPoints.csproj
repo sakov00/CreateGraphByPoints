@@ -101,6 +101,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Containers\AutofacConfig.cs" />
+    <Compile Include="Extensions\SeriesCollectionExtension.cs" />
     <Compile Include="Interfaces\ILoadAndUnloadFunctionsInFile.cs" />
     <Compile Include="ForWorkWithFiles\WorkWithJson.cs" />
     <Compile Include="ForWorkWithFiles\WorkWithXml.cs" />

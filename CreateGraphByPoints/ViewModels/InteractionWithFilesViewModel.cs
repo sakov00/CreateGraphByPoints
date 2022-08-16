@@ -8,29 +8,18 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using CreateGraphByPoints.Extensions;
 
 namespace CreateGraphByPoints.ViewModels
 {
     public class InteractionWithFilesViewModel : BaseViewModel
     {
-        private InteractionOnCanvasViewModel interactionOnCanvasVM;
-
-        public InteractionOnCanvasViewModel InteractionOnCanvasVM
-        {
-            get => interactionOnCanvasVM;
-            set
-            {
-                interactionOnCanvasVM = value;
-                OnPropertyChanged();
-            }
-        }
-
         public InteractionWithFilesViewModel(WorkWithJson WorkWithJson, WorkWithXml WorkWithXml)
         {
-            LoadFunctionsInJson = new RelayCommand(param => LoadFunctionsInFile(WorkWithJson));
-            UnloadFunctionsFromJson = new RelayCommand(param => UnloadFunctionsFromFile(WorkWithJson));
-            LoadFunctionsInXml = new RelayCommand(param => LoadFunctionsInFile(WorkWithXml));
-            UnloadFunctionsFromXml = new RelayCommand(param => UnloadFunctionsFromFile(WorkWithXml));
+            LoadFunctionsInJson = new RelayCommand(param => LoadFunctionsInFile(param, WorkWithJson));
+            UnloadFunctionsFromJson = new RelayCommand(param => UnloadFunctionsFromFile(param, WorkWithJson));
+            LoadFunctionsInXml = new RelayCommand(param => LoadFunctionsInFile(param, WorkWithXml));
+            UnloadFunctionsFromXml = new RelayCommand(param => UnloadFunctionsFromFile(param, WorkWithXml));
         }
 
         #region Commands
@@ -39,9 +28,10 @@ namespace CreateGraphByPoints.ViewModels
 
         public ICommand LoadFunctionsInXml { get; private set; }
 
-        private async void LoadFunctionsInFile(ILoadAndUnloadFunctionsInFile WorkFile)
+        private async void LoadFunctionsInFile(object paramSeriesCollection, ILoadAndUnloadFunctionsInFile WorkFile)
         {
-            await Task.Run(() => WorkFile.LoadInFile(SeriesCollectionConvertToListChartValues()));
+            var seriesCollection = (SeriesCollection)paramSeriesCollection;
+            await Task.Run(() => WorkFile.LoadInFile(seriesCollection.SeriesCollectionConvertToListChartValues()));
             IsCanProjectChanged = false;
         }
 
@@ -49,44 +39,22 @@ namespace CreateGraphByPoints.ViewModels
 
         public ICommand UnloadFunctionsFromXml { get; private set; }
 
-        private async void UnloadFunctionsFromFile(ILoadAndUnloadFunctionsInFile WorkFile)
+        private async void UnloadFunctionsFromFile(object paramSeriesCollection, ILoadAndUnloadFunctionsInFile WorkFile)
         {
             var listChartValues = await Task.Run(() => WorkFile.LoadFromFile());
-            InteractionOnCanvasVM.SeriesCollection = ListChartValuesConvertToSeriesCollection(listChartValues);
+            var seriesCollection = (SeriesCollection)paramSeriesCollection;
+            seriesCollection.ReplaceListChartValuesInSeriesCollection(listChartValues);
 
-            if (InteractionOnCanvasVM.SeriesCollection.Count == 0)
+            if (seriesCollection.Count == 0)
             {
                 MessageBox.Show("The file is empty");
                 return;
             }
 
-            InteractionOnCanvasVM.CurrentFunction = (LineSeries)InteractionOnCanvasVM.SeriesCollection[0];
             IsCanProjectChanged = false;
             MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
         }
 
         #endregion Commands
-
-        private List<ChartValues<ObservablePoint>> SeriesCollectionConvertToListChartValues()
-        {
-            var listChartValues = new List<ChartValues<ObservablePoint>>();
-            foreach (LineSeries line in InteractionOnCanvasVM.SeriesCollection)
-                listChartValues.Add((ChartValues<ObservablePoint>)line.Values);
-            return listChartValues;
-        }
-
-        private SeriesCollection ListChartValuesConvertToSeriesCollection(List<ChartValues<ObservablePoint>> listChartValues)
-        {
-            var listLineSeries = new SeriesCollection();
-            foreach (var line in listChartValues)
-            {
-                listLineSeries.Add(new LineSeries
-                {
-                    Values = line,
-                    LineSmoothness = 0
-                });
-            }
-            return listLineSeries;
-        }
     }
 }
