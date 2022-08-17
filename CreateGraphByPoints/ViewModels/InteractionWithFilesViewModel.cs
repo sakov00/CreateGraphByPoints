@@ -2,9 +2,6 @@
 using CreateGraphByPoints.Commands;
 using CreateGraphByPoints.Interfaces;
 using LiveCharts;
-using LiveCharts.Defaults;
-using LiveCharts.Wpf;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -24,6 +21,8 @@ namespace CreateGraphByPoints.ViewModels
 
         #region Commands
 
+        #region --- LoadFunctionsInFile ---
+
         public ICommand LoadFunctionsInJson { get; private set; }
 
         public ICommand LoadFunctionsInXml { get; private set; }
@@ -34,6 +33,10 @@ namespace CreateGraphByPoints.ViewModels
             await Task.Run(() => WorkFile.LoadInFile(seriesCollection.SeriesCollectionConvertToListChartValues()));
             IsCanProjectChanged = false;
         }
+
+        #endregion --- LoadFunctionsInFile ---
+
+        #region --- UnloadFunctionsFromFile ---
 
         public ICommand UnloadFunctionsFromJson { get; private set; }
 
@@ -54,6 +57,8 @@ namespace CreateGraphByPoints.ViewModels
             IsCanProjectChanged = false;
             MessageBox.Show("The functions were successfully unloaded from the file.\nThe points of the blue function are now displayed");
         }
+
+        #endregion --- UnloadFunctionsFromFile ---
 
         #endregion Commands
     }

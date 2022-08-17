@@ -7,15 +7,15 @@ namespace CreateGraphByPoints.Containers
     public class AutofacConfig
     {
         public static IContainer GetContainer { get; set; }
+
         public static void ConfigureContainer()
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<InteractionWithFilesViewModel>().AsSelf();
-            builder.RegisterType<InteractionOnCanvasViewModel>().AsSelf();
-            builder.RegisterType<WorkWithJson>().AsSelf();
-            builder.RegisterType<WorkWithXml>().AsSelf();
-
+            builder.RegisterType<InteractionWithFilesViewModel>();
+            builder.RegisterType<InteractionOnCanvasViewModel>();
+            builder.RegisterType<WorkWithJson>();
+            builder.RegisterType<WorkWithXml>();
             builder.Register(x => new MainViewModel
             (
                 x.Resolve<InteractionOnCanvasViewModel>(),

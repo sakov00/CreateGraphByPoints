@@ -2,7 +2,6 @@
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
-using System.Windows;
 using System.Windows.Input;
 
 namespace CreateGraphByPoints.ViewModels
@@ -37,14 +36,12 @@ namespace CreateGraphByPoints.ViewModels
         {
             SeriesCollection = new SeriesCollection();
             
-            AddPoint = new RelayCommand(param => AddPoint_Executed(param));
-            RemovePoint = new RelayCommand(param => RemovePoint_Executed(param));
-            AddFunction = new RelayCommand(param => AddFunction_Executed(param));
-            RemoveFunction = new RelayCommand(param => RemoveFunction_Executed(param));
-            ChangeCurrentFunction = new RelayCommand(param => ChangeCurrentFunction_Executed(param));
-            InverseCurrentFunction = new RelayCommand(param => InverseCurrentFunction_Executed(param));
-
-            AddFunction_Executed(null);
+            AddPoint = new RelayCommand(AddPoint_Executed, ExistCurrentFunction_CanExecuted);
+            RemovePoint = new RelayCommand(RemovePoint_Executed);
+            AddFunction = new RelayCommand(AddFunction_Executed);
+            RemoveFunction = new RelayCommand(RemoveFunction_Executed, ExistCurrentFunction_CanExecuted);
+            ChangeCurrentFunction = new RelayCommand(ChangeCurrentFunction_Executed);
+            InverseCurrentFunction = new RelayCommand(InverseCurrentFunction_Executed, ExistCurrentFunction_CanExecuted);
         }
 
         #region Commands
@@ -55,11 +52,6 @@ namespace CreateGraphByPoints.ViewModels
 
         private void AddPoint_Executed(object param)
         {
-            if (CurrentFunction == null)
-            {
-                MessageBox.Show("Please add function on canvas or select function");
-                return;
-            }
             CurrentFunction.Values.Add(new ObservablePoint());
             IsCanProjectChanged = true;
         }
@@ -104,8 +96,6 @@ namespace CreateGraphByPoints.ViewModels
 
         private void RemoveFunction_Executed(object param)
         {
-            if (CurrentFunction == null)
-                return;
             SeriesCollection.Remove(CurrentFunction);
             CurrentFunction = null;
             IsCanProjectChanged = true;
@@ -127,15 +117,12 @@ namespace CreateGraphByPoints.ViewModels
 
         private void InverseCurrentFunction_Executed(object param)
         {
-            if (CurrentFunction == null)
-                return;
             foreach (var obj in CurrentFunction.Values)
             {
                 var point = (ObservablePoint)obj;
-                double cloneX = point.X;
-                double cloneY = point.Y;
-                point.X = cloneY;
-                point.Y= cloneX;
+                var temp = point.X;
+                point.X = point.Y;
+                point.Y = temp;
             }
             IsCanProjectChanged = true;
         }
@@ -143,5 +130,7 @@ namespace CreateGraphByPoints.ViewModels
         #endregion --- InverseCurrentFunction ---
 
         #endregion Commands
+
+        private bool ExistCurrentFunction_CanExecuted(object param) => CurrentFunction == null ? false : true;
     }
 }
