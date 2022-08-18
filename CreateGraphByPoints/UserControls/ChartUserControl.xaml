@@ -10,7 +10,7 @@
         <lvc:CartesianChart Series="{Binding InteractionOnCanvasVM.SeriesCollection}"
                             Margin="10"
                             DataClickCommand="{Binding InteractionOnCanvasVM.ChangeCurrentFunction}">
-            <lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisX >
                 <lvc:Axis Title="X" FontSize="14"></lvc:Axis>
             </lvc:CartesianChart.AxisX>
             <lvc:CartesianChart.AxisY>
